@@ -23,7 +23,7 @@ class GELFOutput < BufferedOutput
 
   def start
     super
-    @conn = GELF::Notifier.new(@host, @port, 'WAN', {:facility => 'fluentd', :protocol => @protocol, :protocol => @tls})
+    @conn = GELF::Notifier.new(@host, @port, 'WAN', {:facility => 'fluentd', :protocol => @protocol, :tls => @tls})
 
     # Errors are not coming from Ruby so we use direct mapping
     @conn.level_mapping = 'direct'
