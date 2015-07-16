@@ -8,6 +8,8 @@ class GELFOutput < BufferedOutput
   config_param :add_msec_time, :bool, :default => false
   config_param :host, :string, :default => nil
   config_param :port, :integer, :default => 12201
+  config_param :protocol, :integer, :default => 0 #GELF::Protocol::UDP
+  config_param :tls, :integer, :default => 0 #GELF::TLS::FALSE
 
   def initialize
     super
@@ -21,7 +23,7 @@ class GELFOutput < BufferedOutput
 
   def start
     super
-    @conn = GELF::Notifier.new(@host, @port, 'WAN', {:facility => 'fluentd'})
+    @conn = GELF::Notifier.new(@host, @port, 'WAN', {:facility => 'fluentd', :protocol => @protocol, :protocol => @tls})
 
     # Errors are not coming from Ruby so we use direct mapping
     @conn.level_mapping = 'direct'
