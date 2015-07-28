@@ -39,6 +39,12 @@ class GELFOutput < BufferedOutput
     gelfentry = { :timestamp => time, :_tag => tag }
 
     record.each_pair do |k,v|
+      if v.is_a? String then
+        record[k] = v.force_encoding('utf-8')
+      end
+    end
+
+    record.each_pair do |k,v|
       case k
       when 'version' then
         gelfentry[:_version] = v
